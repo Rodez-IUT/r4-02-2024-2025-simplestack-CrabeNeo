@@ -1,12 +1,20 @@
 package org.example;
 
 public class SimpleStack implements Stack {
+
+    private Item[] stack;
+
+    public SimpleStack() {
+        stack = new Item[0];
+    }
+
+
     /**
      * Tests if this stack is empty
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.stack.length == 0;
     }
 
     /**
@@ -14,7 +22,7 @@ public class SimpleStack implements Stack {
      */
     @Override
     public int getSize() {
-        return 0;
+        return this.stack.length;
     }
 
     /**
@@ -25,7 +33,12 @@ public class SimpleStack implements Stack {
      */
     @Override
     public void push(Item item) {
-
+        Item[] newStack = new Item[this.stack.length + 1];
+        for (int i = 0; i < this.stack.length; i++) {
+            newStack[i] = this.stack[i];
+        }
+        newStack[this.stack.length] = item;
+        this.stack = newStack;
     }
 
     /**
@@ -33,7 +46,10 @@ public class SimpleStack implements Stack {
      */
     @Override
     public Item peek() throws EmptyStackException {
-        return null;
+        if (this.isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return this.stack[this.stack.length - 1];
     }
 
     /**
@@ -44,6 +60,15 @@ public class SimpleStack implements Stack {
      */
     @Override
     public Item pop() throws EmptyStackException {
-        return null;
+        if (this.isEmpty()) {
+            throw new EmptyStackException();
+        }
+        Item[] newStack = new Item[this.stack.length - 1];
+        for (int i = 0; i < this.stack.length - 1; i++) {
+            newStack[i] = this.stack[i];
+        }
+        Item item = this.stack[this.stack.length - 1];
+        this.stack = newStack;
+        return item;
     }
 }
