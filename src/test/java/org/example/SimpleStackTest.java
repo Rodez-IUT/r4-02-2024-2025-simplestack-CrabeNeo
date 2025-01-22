@@ -52,11 +52,47 @@ class SimpleStackTest {
     @Test
     @DisplayName("Test limit when trying to pop an empty stack")
     public void testPopOnEmptyStack()  {
+
         // Given an empty stack
         Stack stack = new SimpleStack();
 
         // When we "pop" the stack, should throws an EmptyStackException.
         //assertThrows(EmptyStackException.class, ()->stack.pop(), "EmptyStackException not thrown");
         assertThrows(EmptyStackException.class, stack::pop, "EmptyStackException not thrown");
+    }
+
+    @Test
+    @DisplayName("Test peek on an empty stack ")
+    public void testPeekEmptyStack()  {
+        // Given an empty stack
+        Stack stack = new SimpleStack();
+
+        //when we peek the stack, should throws an  EmptyStackException.
+        assertThrows(EmptyStackException.class, stack::peek, "");
+
+    }
+
+    @Test
+    @DisplayName("test pop on an stack ")
+    public void testPop() {
+
+        // Given an empty stack and   7 item
+        Stack stack = new SimpleStack();
+        Item item = new SimpleItem();
+        Item item2 = new SimpleItem();
+
+        // When the item is pushed in the stack
+        stack.push(item);
+        stack.push(item2);
+
+
+        //when we pop the stack
+        try{
+            assertEquals(item2,stack.pop(),"");
+            assertEquals(1,stack.getSize(),"");
+        }catch(EmptyStackException e){
+            System.err.println(e);
+        }
+
     }
 }
