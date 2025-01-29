@@ -95,4 +95,84 @@ class SimpleStackTest {
         }
 
     }
+
+    @Test
+    @DisplayName("Test popping elements until stack is empty")
+    public void testPopUntilEmpty() throws EmptyStackException {
+        // Given a stack with multiple elements
+        Stack stack = new SimpleStack();
+        Item item1 = new SimpleItem();
+        Item item2 = new SimpleItem();
+
+        stack.push(item1);
+        stack.push(item2);
+
+        // When popping all elements
+        assertEquals(item2, stack.pop(), "First pop should return last pushed item");
+        assertEquals(item1, stack.pop(), "Second pop should return first pushed item");
+
+        // Then the stack should be empty
+        assertTrue(stack.isEmpty(), "Stack should be empty after popping all elements");
+        assertEquals(0, stack.getSize(), "Stack size should be 0 after popping all elements");
+
+        // And trying to pop should throw an exception
+        assertThrows(EmptyStackException.class, stack::pop, "Popping an empty stack should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test peek after multiple push and pop operations")
+    public void testPeekAfterOperations() throws EmptyStackException {
+        // Given a stack with multiple elements
+        Stack stack = new SimpleStack();
+        Item item1 = new SimpleItem();
+        Item item2 = new SimpleItem();
+
+        stack.push(item1);
+        stack.push(item2);
+
+        // When peeking after multiple operations
+        assertEquals(item2, stack.peek(), "Peek should return the last pushed item");
+
+        stack.pop(); // Remove item2
+
+        assertEquals(item1, stack.peek(), "Peek should now return the second last pushed item");
+    }
+
+    @Test
+    @DisplayName("Test size updates correctly after push and pop")
+    public void testStackSize() throws EmptyStackException {
+        // Given an empty stack
+        Stack stack = new SimpleStack();
+
+        // When pushing items
+        stack.push(new SimpleItem());
+        assertEquals(1, stack.getSize(), "Stack size should be 1 after one push");
+
+        stack.push(new SimpleItem());
+        assertEquals(2, stack.getSize(), "Stack size should be 2 after two pushes");
+
+        // When popping items
+        stack.pop();
+        assertEquals(1, stack.getSize(), "Stack size should be 1 after one pop");
+
+        stack.pop();
+        assertEquals(0, stack.getSize(), "Stack size should be 0 after popping all items");
+    }
+
+    @Test
+    @DisplayName("Test pushing null item into the stack")
+    public void testPushNullItem() throws EmptyStackException {
+        // Given an empty stack
+        Stack stack = new SimpleStack();
+
+        // When pushing null
+        stack.push(null);
+
+        // Then the stack should contain one element, which is null
+        assertFalse(stack.isEmpty(), "Stack should not be empty after pushing null");
+        assertEquals(1, stack.getSize(), "Stack size should be 1 after pushing null");
+        assertNull(stack.peek(), "The top element should be null");
+    }
+
+
 }
